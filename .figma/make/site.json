@@ -1,0 +1,11 @@
+{
+  "title": "Основной",
+  "description": "Connects gamers with servers for Baratrama and Protocol D7, offering a streamlined platform for server information and community engagement.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
