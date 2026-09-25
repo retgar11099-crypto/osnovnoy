@@ -394,7 +394,9 @@ export default function App() {
           {['ДОКУМЕНТЫ', 'ПРАВИЛА', 'DISCORD', 'КОНТАКТЫ'].map((item) => (
             <a
               key={item}
-              href="#"
+              href={item === 'DISCORD' ? 'https://discord.gg/tqhwNTZgf3' : '#'}
+              target={item === 'DISCORD' ? '_blank' : undefined}
+              rel={item === 'DISCORD' ? 'noopener noreferrer' : undefined}
               style={{
                 fontFamily: 'JetBrains Mono',
                 fontSize: '10px',
