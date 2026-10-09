@@ -34,7 +34,7 @@ function ServerCard({
     <a
       href={href ?? '#'}
       target={href ? '_blank' : undefined}
-      rel="noopener noreferrer"
+      rel={href ? 'noopener noreferrer' : undefined}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -343,7 +343,6 @@ export default function App() {
           <ServerCard
             code="SRV-001 // SCX"
             title="RU, EU (SCX)"
-            href="https://retgar11099-crypto.github.io/barotrauma/"
             subtitle="Barotrauma — Clown Voyages"
             desc="Сервер про путешествия клоунов с элементами РП-тематики. Заходи — мы тебя ждём."
             tag="// Roleplay Voyage"
@@ -355,7 +354,6 @@ export default function App() {
           <ServerCard
             code="SRV-002 // PRTCL"
             title="Protocol D7"
-            href="https://retgar11099-crypto.github.io/d7/"
             subtitle="Minecraft — Tech, Horror & Anomalies"
             desc="Сервер по Minecraft с технологиями, элементами хоррора и аномалий. Заходи — мы тебя ждём."
             tag="// Tech Horror"
@@ -367,7 +365,6 @@ export default function App() {
           <ServerCard
             code="SRV-003 // MNTN"
             title="Prodject Mantani"
-            href="https://retgar11099-crypto.github.io/project-zomboid/"
             subtitle="Project Zomboid — Survival"
             desc="Сервер по Project Zomboid. Выживи в мире мертвецов — каждый день на счету."
             tag="// Survival Horror"
@@ -376,6 +373,18 @@ export default function App() {
             statusLabel="ONLINE"
             floatDelay="-2s"
             stripe
+          />
+          <ServerCard
+            code="SRV-004 // DSV"
+            title="DSV-Zombi"
+            subtitle="Project Zomboid — Survival"
+            desc="Мир после катастрофы, где припасы на исходе, а безопасных мест почти не осталось. Собери команду и выживи."
+            tag="// Zombie Survival"
+            accentColor="#91c7a5"
+            glowColor="rgba(145,199,165,0.3)"
+            statusLabel="ONLINE"
+            floatDelay="-6.5s"
+            href="https://retgar11099-crypto.github.io/dsv-zombi/"
           />
         </div>
 
