@@ -12,6 +12,19 @@ const NAV_LINKS = [
 
 const STATUS_URL = 'https://gist.githubusercontent.com/retgar11099-crypto/1f133bc097fcf50da45aa81e9426fe46/raw/status.json'
 
+type Shot = { src: string; alt: string; tag: string }
+
+const GALLERY: Shot[] = [
+  { src: 'gallery/barotrauma-1.png', alt: 'Barotrauma — борт субмарины', tag: 'BAROTRAUMA' },
+  { src: 'gallery/barotrauma-2.png', alt: 'Barotrauma — глубина', tag: 'BAROTRAUMA' },
+  { src: 'gallery/skyhold-1.png', alt: 'SkyHold — Хроники Джандара', tag: 'SKYHOLD' },
+  { src: 'gallery/skyhold-2.png', alt: 'SkyHold — Цитадель', tag: 'SKYHOLD' },
+  { src: 'gallery/mantani-1.png', alt: 'Mantani — город Нокс', tag: 'MANTANI' },
+  { src: 'gallery/mantani-2.png', alt: 'Mantani — день первый', tag: 'MANTANI' },
+  { src: 'gallery/dsv-1.png', alt: 'DSV — Чёрная волна', tag: 'DSV' },
+  { src: 'gallery/dsv-2.png', alt: 'DSV — команда выживших', tag: 'DSV' },
+]
+
 type ServerStatus = { online: boolean; players?: number; max?: number }
 
 function ServerCard({
@@ -249,6 +262,7 @@ export default function App() {
   const [cyber, setCyber] = useState(false)
   const [cyberError, setCyberError] = useState(false)
   const [rebel, setRebel] = useState(false)
+  const [galleryIdx, setGalleryIdx] = useState<number | null>(null)
 
   useEffect(() => {
     let alive = true
@@ -273,6 +287,18 @@ export default function App() {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [cyber])
+
+  const lbOpen = galleryIdx !== null
+  useEffect(() => {
+    if (!lbOpen) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setGalleryIdx(null)
+      else if (e.key === 'ArrowRight') setGalleryIdx(i => (i === null ? i : (i + 1) % GALLERY.length))
+      else if (e.key === 'ArrowLeft') setGalleryIdx(i => (i === null ? i : (i + GALLERY.length - 1) % GALLERY.length))
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [lbOpen])
 
   return (
     <div
@@ -598,6 +624,28 @@ export default function App() {
           />
         </div>
 
+        {/* gallery */}
+        <div style={{ marginBottom: '56px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', justifyContent: 'center' }}>
+            <div style={{ flex: 1, maxWidth: '120px', height: '1px', background: 'linear-gradient(to left, #2a3654, transparent)' }} />
+            <span style={{ fontFamily: 'JetBrains Mono', fontSize: '10px', color: '#4a5474', letterSpacing: '0.18em' }}>
+              SCREENSHOTS
+            </span>
+            <div style={{ flex: 1, maxWidth: '120px', height: '1px', background: 'linear-gradient(to right, #2a3654, transparent)' }} />
+          </div>
+          <div className="gallery-grid">
+            {GALLERY.map((s, i) => (
+              <button key={s.src} className="gallery-item" onClick={() => setGalleryIdx(i)} aria-label={s.alt}>
+                <img src={import.meta.env.BASE_URL + s.src} alt={s.alt} loading="lazy" />
+                <span className="gallery-cap">
+                  <span className="g-tag">{s.tag}</span>
+                  <span className="g-alt">{s.alt}</span>
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* footer */}
         <div
           style={{
@@ -665,6 +713,28 @@ export default function App() {
           <div className="rebel-scanlines" aria-hidden="true" />
           <div className="rebel-alert">⚠ REBELLION MODE · СИСТЕМА НЕСТАБИЛЬНА</div>
         </>
+      )}
+
+      {lbOpen && GALLERY[galleryIdx!] && (
+        <div className="gallery-lb" onClick={(e) => { if (e.target === e.currentTarget) setGalleryIdx(null) }}>
+          <button className="gallery-lb-close" onClick={() => setGalleryIdx(null)} aria-label="Закрыть">✕</button>
+          <button
+            className="gallery-lb-nav gallery-lb-prev"
+            onClick={(e) => { e.stopPropagation(); setGalleryIdx(i => (i === null ? i : (i + GALLERY.length - 1) % GALLERY.length)) }}
+            aria-label="Назад"
+          >‹</button>
+          <img src={import.meta.env.BASE_URL + GALLERY[galleryIdx!].src} alt={GALLERY[galleryIdx!].alt} />
+          <button
+            className="gallery-lb-nav gallery-lb-next"
+            onClick={(e) => { e.stopPropagation(); setGalleryIdx(i => (i === null ? i : (i + 1) % GALLERY.length)) }}
+            aria-label="Вперёд"
+          >›</button>
+          <div className="gallery-lb-meta">
+            <span className="g-tag">{GALLERY[galleryIdx!].tag}</span>
+            <span>{GALLERY[galleryIdx!].alt}</span>
+            <span className="gallery-lb-counter">{galleryIdx! + 1} / {GALLERY.length}</span>
+          </div>
+        </div>
       )}
     </div>
   )
