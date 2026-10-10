@@ -630,6 +630,29 @@ html, body, #root {
 }
 
 /* === Gallery === */
+.gallery-jump {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #5a6484;
+  background: transparent;
+  border: 1px solid #253048;
+  border-radius: 999px;
+  padding: 8px 18px;
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.gallery-jump:hover {
+  color: #77d4e0;
+  border-color: rgba(119, 212, 224, 0.5);
+  transform: translateY(-1px);
+}
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));

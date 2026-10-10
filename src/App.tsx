@@ -652,8 +652,17 @@ export default function App() {
           </div>
         </div>
 
+        <div style={{ textAlign: 'center', marginTop: '-8px', marginBottom: '56px' }}>
+          <button
+            className="gallery-jump"
+            onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+          >
+            🖼 СКРИНЫ СЕРВЕРОВ
+          </button>
+        </div>
+
         {/* gallery */}
-        <div style={{ marginBottom: '56px' }}>
+        <div id="gallery" style={{ marginBottom: '56px', scrollMarginTop: '60px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px', justifyContent: 'center' }}>
             <div style={{ flex: 1, maxWidth: '120px', height: '1px', background: 'linear-gradient(to left, #2a3654, transparent)' }} />
             <span style={{ fontFamily: 'JetBrains Mono', fontSize: '10px', color: '#4a5474', letterSpacing: '0.18em' }}>
