@@ -248,6 +248,7 @@ export default function App() {
   const [statuses, setStatuses] = useState<Record<string, ServerStatus> | null>(null)
   const [cyber, setCyber] = useState(false)
   const [cyberError, setCyberError] = useState(false)
+  const [rebel, setRebel] = useState(false)
 
   useEffect(() => {
     let alive = true
@@ -381,6 +382,12 @@ export default function App() {
           NEXUS // HUB-NODE
         </span>
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          <button
+            className={rebel ? 'rebel-toggle on' : 'rebel-toggle'}
+            onClick={() => setRebel(r => !r)}
+          >
+            {rebel ? '✖ EXIT' : '⚡ REBELLION'}
+          </button>
           <span style={{ fontFamily: 'JetBrains Mono', fontSize: '11px', color: '#4a5474', letterSpacing: '0.1em' }}>
             {time}
           </span>
@@ -645,6 +652,14 @@ export default function App() {
           <button className="cyber-exit" onClick={() => setCyber(false)}>▣ ВЫКЛЮЧИТЬ · ESC</button>
           {cyberError && <div className="cyber-msg">Видео не найдено — добавь файл public/intro.mp4</div>}
         </div>
+      )}
+
+      {rebel && (
+        <>
+          <div className="rebel-tint" aria-hidden="true" />
+          <div className="rebel-scanlines" aria-hidden="true" />
+          <div className="rebel-alert">⚠ REBELLION MODE · СИСТЕМА НЕСТАБИЛЬНА</div>
+        </>
       )}
     </div>
   )
