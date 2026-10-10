@@ -12,9 +12,15 @@ const NAV_LINKS = [
 
 const STATUS_URL = 'https://gist.githubusercontent.com/retgar11099-crypto/1f133bc097fcf50da45aa81e9426fe46/raw/status.json'
 
-type Shot = { src: string; alt: string; tag: string }
+type Shot = { src: string; alt: string; tag: string; embed?: string }
 
 const GALLERY: Shot[] = [
+  {
+    src: 'https://media.tenor.com/gKZU-C9ZpTUAAAAe/%D0%B4%D0%B2%D0%B8%D0%B6%D1%83%D1%85%D0%B0-%D0%BF%D1%80%D0%B8%D0%B4%D0%B0%D0%B5%D1%82-%D0%BC%D0%BD%D0%B5-%D1%81%D0%B8%D0%BB%D1%8B-%D0%B4%D0%B2%D0%B8%D0%B6%D1%83%D1%85%D0%B0.png',
+    alt: 'движуха придаёт мне силы',
+    tag: 'MEME',
+    embed: 'https://tenor.com/embed/9270190307911771445',
+  },
   { src: 'gallery/nexus-1.jpg', alt: 'NEXUS — сеть серверов', tag: 'NEXUS' },
   { src: 'gallery/barotrauma-1.png', alt: 'Barotrauma — борт субмарины', tag: 'BAROTRAUMA' },
   { src: 'gallery/barotrauma-2.png', alt: 'Barotrauma — глубина', tag: 'BAROTRAUMA' },
@@ -25,6 +31,9 @@ const GALLERY: Shot[] = [
   { src: 'gallery/dsv-1.png', alt: 'DSV — Чёрная волна', tag: 'DSV' },
   { src: 'gallery/dsv-2.png', alt: 'DSV — команда выживших', tag: 'DSV' },
 ]
+
+const shotSrc = (s: Shot) => /^https?:/i.test(s.src) ? s.src : import.meta.env.BASE_URL + s.src
+
 
 type ServerStatus = { online: boolean; players?: number; max?: number }
 
@@ -733,7 +742,7 @@ export default function App() {
             <div className="gallery-modal-grid">
               {GALLERY.map((s, i) => (
                 <button key={s.src} className="gallery-item" onClick={() => setGalleryIdx(i)} aria-label={s.alt}>
-                  <img src={import.meta.env.BASE_URL + s.src} alt={s.alt} loading="lazy" />
+                  <img src={shotSrc(s)} alt={s.alt} loading="lazy" />
                 </button>
               ))}
             </div>
@@ -749,7 +758,16 @@ export default function App() {
             onClick={(e) => { e.stopPropagation(); setGalleryIdx(i => (i === null ? i : (i + GALLERY.length - 1) % GALLERY.length)) }}
             aria-label="Назад"
           >‹</button>
-          <img src={import.meta.env.BASE_URL + GALLERY[galleryIdx!].src} alt={GALLERY[galleryIdx!].alt} />
+          {GALLERY[galleryIdx!].embed ? (
+            <iframe
+              className="gallery-lb-media"
+              src={GALLERY[galleryIdx!].embed}
+              title={GALLERY[galleryIdx!].alt}
+              allowFullScreen
+            />
+          ) : (
+            <img src={shotSrc(GALLERY[galleryIdx!])} alt={GALLERY[galleryIdx!].alt} />
+          )}
           <button
             className="gallery-lb-nav gallery-lb-next"
             onClick={(e) => { e.stopPropagation(); setGalleryIdx(i => (i === null ? i : (i + 1) % GALLERY.length)) }}

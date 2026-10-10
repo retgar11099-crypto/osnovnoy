@@ -745,6 +745,15 @@ html, body, #root {
   background: #0d1322;
 }
 
+.gallery-lb iframe.gallery-lb-media {
+  width: min(92vw, 560px);
+  height: min(78vh, 600px);
+  border: 1px solid rgba(119, 212, 224, 0.35);
+  border-radius: 8px;
+  box-shadow: 0 40px 120px -20px rgba(0, 0, 0, 0.9);
+  background: #0d1322;
+}
+
 .gallery-lb-close {
   position: absolute;
   top: 18px;
