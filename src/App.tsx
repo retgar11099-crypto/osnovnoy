@@ -15,6 +15,7 @@ const STATUS_URL = 'https://gist.githubusercontent.com/retgar11099-crypto/1f133b
 type Shot = { src: string; alt: string; tag: string }
 
 const GALLERY: Shot[] = [
+  { src: 'gallery/nexus-1.jpg', alt: 'NEXUS — сеть серверов', tag: 'NEXUS' },
   { src: 'gallery/barotrauma-1.png', alt: 'Barotrauma — борт субмарины', tag: 'BAROTRAUMA' },
   { src: 'gallery/barotrauma-2.png', alt: 'Barotrauma — глубина', tag: 'BAROTRAUMA' },
   { src: 'gallery/skyhold-1.png', alt: 'SkyHold — Хроники Джандара', tag: 'SKYHOLD' },
