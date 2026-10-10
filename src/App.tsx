@@ -10,6 +10,10 @@ const NAV_LINKS = [
   { label: 'DISCORD', href: 'https://discord.gg/tqhwNTZgf3' },
 ]
 
+const STATUS_URL = 'https://gist.githubusercontent.com/retgar11099-crypto/1f133bc097fcf50da45aa81e9426fe46/raw/status.json'
+
+type ServerStatus = { online: boolean; players?: number; max?: number }
+
 function ServerCard({
   code,
   title,
@@ -20,6 +24,7 @@ function ServerCard({
   accentColor,
   glowColor,
   statusLabel,
+  status,
   floatDelay,
   revealDelay,
   stripe,
@@ -33,11 +38,20 @@ function ServerCard({
   accentColor: string
   glowColor: string
   statusLabel: string
+  status?: ServerStatus
   floatDelay: string
   revealDelay: string
   stripe?: boolean
 }) {
   const [hovered, setHovered] = useState(false)
+
+  const online = status?.online
+  const dotColor = status ? (online ? '#5fe08a' : '#e06060') : accentColor
+  const statusText = status
+    ? online
+      ? 'ONLINE' + (typeof status.players === 'number' ? ` · ${status.players}${status.max ? '/' + status.max : ''}` : '')
+      : 'OFFLINE'
+    : statusLabel
 
   return (
     <div style={{ animation: `card-reveal 0.9s cubic-bezier(0.22, 0.9, 0.32, 1) both`, animationDelay: revealDelay }}>
@@ -116,23 +130,26 @@ function ServerCard({
             gap: '7px',
             fontFamily: 'JetBrains Mono',
             fontSize: '10px',
-            color: accentColor,
+            color: dotColor,
             letterSpacing: '0.12em',
+            transition: 'color 0.4s ease',
           }}
         >
           <span style={{ position: 'relative', display: 'inline-flex', width: '7px', height: '7px' }}>
-            <span
-              style={{
-                position: 'absolute',
-                inset: 0,
-                borderRadius: '50%',
-                background: accentColor,
-                animation: 'gentle-pulse 3s ease-in-out infinite',
-              }}
-            />
-            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: accentColor }} />
+            {(!status || online) && (
+              <span
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  borderRadius: '50%',
+                  background: dotColor,
+                  animation: 'gentle-pulse 3s ease-in-out infinite',
+                }}
+              />
+            )}
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: dotColor }} />
           </span>
-          {statusLabel}
+          {statusText}
         </span>
       </div>
 
@@ -227,6 +244,25 @@ export default function App() {
     const done = setTimeout(() => setSplash(false), 1700)
     return () => { clearTimeout(fade); clearTimeout(done) }
   }, [splash])
+
+  const [statuses, setStatuses] = useState<Record<string, ServerStatus> | null>(null)
+
+  useEffect(() => {
+    let alive = true
+    const load = async () => {
+      try {
+        const res = await fetch(`${STATUS_URL}?t=${Date.now()}`, { cache: 'no-store' })
+        if (!res.ok) return
+        const data = await res.json()
+        if (alive && data && data.servers) setStatuses(data.servers)
+      } catch {
+        /* unreachable — keep previous values */
+      }
+    }
+    load()
+    const t = setInterval(load, 60000)
+    return () => { alive = false; clearInterval(t) }
+  }, [])
 
   return (
     <div
@@ -470,6 +506,7 @@ export default function App() {
             accentColor="#77d4e0"
             glowColor="rgba(119,212,224,0.35)"
             statusLabel="ONLINE"
+            status={statuses?.barotrauma}
             floatDelay="0s"
             revealDelay="1.2s"
             href="https://retgar11099-crypto.github.io/barotrauma/"
@@ -483,6 +520,7 @@ export default function App() {
             accentColor="#c7a15a"
             glowColor="rgba(199,161,90,0.32)"
             statusLabel="ONLINE"
+            status={statuses?.skyhold}
             floatDelay="-4.5s"
             revealDelay="1.32s"
             href="https://retgar11099-crypto.github.io/skyhold/"
@@ -496,6 +534,7 @@ export default function App() {
             accentColor="#f0c93a"
             glowColor="rgba(240,201,58,0.32)"
             statusLabel="ONLINE"
+            status={statuses?.mantani}
             floatDelay="-2s"
             revealDelay="1.44s"
             stripe
@@ -510,6 +549,7 @@ export default function App() {
             accentColor="#91c7a5"
             glowColor="rgba(145,199,165,0.3)"
             statusLabel="ONLINE"
+            status={statuses?.['dsv-zombi']}
             floatDelay="-6.5s"
             revealDelay="1.56s"
             href="https://retgar11099-crypto.github.io/dsv-zombi/"
