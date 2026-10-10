@@ -246,6 +246,8 @@ export default function App() {
   }, [splash])
 
   const [statuses, setStatuses] = useState<Record<string, ServerStatus> | null>(null)
+  const [cyber, setCyber] = useState(false)
+  const [cyberError, setCyberError] = useState(false)
 
   useEffect(() => {
     let alive = true
@@ -263,6 +265,13 @@ export default function App() {
     const t = setInterval(load, 60000)
     return () => { alive = false; clearInterval(t) }
   }, [])
+
+  useEffect(() => {
+    if (!cyber) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setCyber(false) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [cyber])
 
   return (
     <div
@@ -486,6 +495,28 @@ export default function App() {
             </span>
             <div style={{ flex: 1, maxWidth: '140px', height: '1px', background: 'linear-gradient(to right, #2a3654, transparent)' }} />
           </div>
+
+          <button
+            onClick={() => { setCyberError(false); setCyber(true) }}
+            style={{
+              marginTop: '26px',
+              fontFamily: 'JetBrains Mono',
+              fontSize: '12px',
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              color: '#77d4e0',
+              background: 'rgba(119,212,224,0.06)',
+              border: '1px solid rgba(119,212,224,0.4)',
+              padding: '10px 22px',
+              borderRadius: '999px',
+              cursor: 'pointer',
+              transition: 'background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease',
+            }}
+            onMouseEnter={(e) => { const el = e.currentTarget; el.style.background = 'rgba(119,212,224,0.14)'; el.style.boxShadow = '0 0 24px rgba(119,212,224,0.25)' }}
+            onMouseLeave={(e) => { const el = e.currentTarget; el.style.background = 'rgba(119,212,224,0.06)'; el.style.boxShadow = 'none' }}
+          >
+            ▶ ВКЛЮЧИТЬ ИНТРО
+          </button>
         </div>
 
         {/* cards */}
@@ -596,6 +627,25 @@ export default function App() {
           </span>
         </div>
       </div>
+
+      {cyber && (
+        <div className="cyber-overlay">
+          <div className="cyber-scanlines" aria-hidden="true" />
+          <div className="cyber-stripes" aria-hidden="true" />
+          <div className="cyber-rgb" aria-hidden="true" />
+          <div className="cyber-tag">CYBERDECK ACTIVE · NEXUS</div>
+          <video
+            className="cyber-video"
+            src={import.meta.env.BASE_URL + 'intro.mp4'}
+            autoPlay
+            playsInline
+            onEnded={() => setCyber(false)}
+            onError={() => setCyberError(true)}
+          />
+          <button className="cyber-exit" onClick={() => setCyber(false)}>▣ ВЫКЛЮЧИТЬ · ESC</button>
+          {cyberError && <div className="cyber-msg">Видео не найдено — добавь файл public/intro.mp4</div>}
+        </div>
+      )}
     </div>
   )
 }
