@@ -33,6 +33,7 @@ function ServerCard({
   title,
   subtitle,
   desc,
+  note,
   tag,
   href,
   accentColor,
@@ -47,6 +48,7 @@ function ServerCard({
   title: string
   subtitle: string
   desc: string
+  note?: string
   tag: string
   href?: string
   accentColor: string
@@ -212,6 +214,20 @@ function ServerCard({
         <p style={{ fontFamily: 'Outfit', fontSize: '15px', color: '#8b95b4', margin: '0 0 30px', lineHeight: 1.75 }}>
           {desc}
         </p>
+
+        {note && (
+          <p
+            style={{
+              fontFamily: 'JetBrains Mono',
+              fontSize: '13px',
+              letterSpacing: '0.12em',
+              color: accentColor,
+              margin: '-16px 0 28px',
+            }}
+          >
+            {note}
+          </p>
+        )}
 
         <div
           style={{
@@ -622,6 +638,7 @@ export default function App() {
             title="DSV-Zombi"
             subtitle="Minecraft — Zombie Survival"
             desc="Мир после катастрофы, где припасы на исходе, а безопасных мест почти не осталось. Собери команду и выживи."
+            note="Россия, Путин, Победа"
             tag="// Zombie Survival"
             accentColor="#91c7a5"
             glowColor="rgba(145,199,165,0.3)"
