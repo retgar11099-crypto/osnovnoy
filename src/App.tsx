@@ -4,7 +4,7 @@ const NOISE_SVG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 
 const NAV_LINKS = [
   { label: 'BAROTRAUMA', href: 'https://retgar11099-crypto.github.io/barotrauma/' },
-  { label: 'PROTOCOL D7', href: 'https://retgar11099-crypto.github.io/d7/' },
+  { label: 'SKYHOLD', href: 'https://retgar11099-crypto.github.io/skyhold/' },
   { label: 'MANTANI', href: 'https://retgar11099-crypto.github.io/project-zomboid/' },
   { label: 'DSV-ZOMBI', href: 'https://retgar11099-crypto.github.io/dsv-zombi/' },
   { label: 'DISCORD', href: 'https://discord.gg/tqhwNTZgf3' },
@@ -475,17 +475,17 @@ export default function App() {
             href="https://retgar11099-crypto.github.io/barotrauma/"
           />
           <ServerCard
-            code="SRV-002 // PRTCL"
-            title="Protocol D7"
-            subtitle="Minecraft — Tech, Horror & Anomalies"
-            desc="Сервер по Minecraft с технологиями, элементами хоррора и аномалий. Заходи — мы тебя ждём."
-            tag="// Tech Horror"
-            accentColor="#e8b784"
-            glowColor="rgba(232,183,132,0.32)"
+            code="SRV-002 // SKYH"
+            title="SkyHold"
+            subtitle="Minecraft — Хроники Джандара"
+            desc="Тёмный ролевой мир, где смерть не освобождает. Читай лор, вступай в Discord и подавай анкету."
+            tag="// Fantasy Roleplay"
+            accentColor="#c7a15a"
+            glowColor="rgba(199,161,90,0.32)"
             statusLabel="ONLINE"
             floatDelay="-4.5s"
             revealDelay="1.32s"
-            href="https://retgar11099-crypto.github.io/d7/"
+            href="https://retgar11099-crypto.github.io/skyhold/"
           />
           <ServerCard
             code="SRV-003 // MNTN"
