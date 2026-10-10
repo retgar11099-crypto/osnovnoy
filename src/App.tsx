@@ -624,6 +624,34 @@ export default function App() {
           />
         </div>
 
+        {/* server sites row */}
+        <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', justifyContent: 'center' }}>
+            <div style={{ flex: 1, maxWidth: '120px', height: '1px', background: 'linear-gradient(to left, #2a3654, transparent)' }} />
+            <span style={{ fontFamily: 'JetBrains Mono', fontSize: '10px', color: '#4a5474', letterSpacing: '0.18em' }}>
+              СТРАНИЦЫ СЕРВЕРОВ
+            </span>
+            <div style={{ flex: 1, maxWidth: '120px', height: '1px', background: 'linear-gradient(to right, #2a3654, transparent)' }} />
+          </div>
+          <div className="sites-row">
+            {NAV_LINKS.filter(l => l.label !== 'DISCORD').map((l, i) => (
+              <a
+                key={l.label}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="sites-btn"
+                style={{ animationDelay: `${i * 0.07}s` }}
+                onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = '#77d4e0'; el.style.color = '#77d4e0'; el.style.boxShadow = '0 0 20px rgba(119,212,224,0.18)' }}
+                onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = '#253048'; el.style.color = '#8b95b4'; el.style.boxShadow = 'none' }}
+              >
+                {l.label}
+                <span style={{ fontFamily: 'JetBrains Mono', fontSize: '12px', lineHeight: 1 }}>↗</span>
+              </a>
+            ))}
+          </div>
+        </div>
+
         {/* gallery */}
         <div style={{ marginBottom: '56px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px', justifyContent: 'center' }}>
