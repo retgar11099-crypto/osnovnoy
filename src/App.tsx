@@ -585,7 +585,7 @@ export default function App() {
           <ServerCard
             code="SRV-004 // DSV"
             title="DSV-Zombi"
-            subtitle="Project Zomboid — Survival"
+            subtitle="Minecraft — Zombie Survival"
             desc="Мир после катастрофы, где припасы на исходе, а безопасных мест почти не осталось. Собери команду и выживи."
             tag="// Zombie Survival"
             accentColor="#91c7a5"
