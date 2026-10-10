@@ -1,0 +1,16 @@
+{
+  "name": "NEXUS — Gaming Network Hub",
+  "short_name": "NEXUS",
+  "description": "Центральный узел игровой сети: Barotrauma, Minecraft (SkyHold) и Project Zomboid (Mantani, DSV-Zombi). Выбери направление и заходи.",
+  "lang": "ru",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0e131f",
+  "theme_color": "#0e131f",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
