@@ -350,6 +350,7 @@ export default function App() {
             glowColor="rgba(119,212,224,0.35)"
             statusLabel="ONLINE"
             floatDelay="0s"
+            href="https://retgar11099-crypto.github.io/barotrauma/"
           />
           <ServerCard
             code="SRV-002 // PRTCL"
@@ -361,6 +362,7 @@ export default function App() {
             glowColor="rgba(232,183,132,0.32)"
             statusLabel="ONLINE"
             floatDelay="-4.5s"
+            href="https://retgar11099-crypto.github.io/d7/"
           />
           <ServerCard
             code="SRV-003 // MNTN"
@@ -373,6 +375,7 @@ export default function App() {
             statusLabel="ONLINE"
             floatDelay="-2s"
             stripe
+            href="https://retgar11099-crypto.github.io/project-zomboid/"
           />
           <ServerCard
             code="SRV-004 // DSV"
