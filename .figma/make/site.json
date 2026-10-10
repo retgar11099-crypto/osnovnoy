@@ -1,8 +1,14 @@
 {
-  "title": "Основной",
-  "description": "Connects gamers with servers for Baratrama and Protocol D7, offering a streamlined platform for server information and community engagement.",
+  "title": "NEXUS — Gaming Network Hub",
+  "description": "Центральный узел игровой сети: Barotrauma, Minecraft (Protocol D7) и Project Zomboid (Mantani, DSV-Zombi). Выбери направление и заходи.",
   "robots": {
-    "index": false
+    "index": true
+  },
+  "icons": {
+    "icon": "favicon.svg"
+  },
+  "openGraph": {
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=630&fit=crop"
   },
   "accessibility": {
     "addBypassLinks": false,
