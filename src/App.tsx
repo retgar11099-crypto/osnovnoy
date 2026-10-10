@@ -2,6 +2,14 @@ import { useState, useEffect } from 'react'
 
 const NOISE_SVG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E")`
 
+const NAV_LINKS = [
+  { label: 'BAROTRAUMA', href: 'https://retgar11099-crypto.github.io/barotrauma/' },
+  { label: 'PROTOCOL D7', href: 'https://retgar11099-crypto.github.io/d7/' },
+  { label: 'MANTANI', href: 'https://retgar11099-crypto.github.io/project-zomboid/' },
+  { label: 'DSV-ZOMBI', href: 'https://retgar11099-crypto.github.io/dsv-zombi/' },
+  { label: 'DISCORD', href: 'https://discord.gg/tqhwNTZgf3' },
+]
+
 function ServerCard({
   code,
   title,
@@ -13,6 +21,7 @@ function ServerCard({
   glowColor,
   statusLabel,
   floatDelay,
+  revealDelay,
   stripe,
 }: {
   code: string
@@ -25,12 +34,14 @@ function ServerCard({
   glowColor: string
   statusLabel: string
   floatDelay: string
+  revealDelay: string
   stripe?: boolean
 }) {
   const [hovered, setHovered] = useState(false)
 
   return (
-    <div style={{ animation: `float-soft 9s ease-in-out infinite`, animationDelay: floatDelay }}>
+    <div style={{ animation: `card-reveal 0.9s cubic-bezier(0.22, 0.9, 0.32, 1) both`, animationDelay: revealDelay }}>
+      <div style={{ animation: `float-soft 9s ease-in-out infinite`, animationDelay: floatDelay }}>
     <a
       href={href ?? '#'}
       target={href ? '_blank' : undefined}
@@ -194,17 +205,28 @@ function ServerCard({
         </div>
       </div>
     </a>
+      </div>
     </div>
   )
 }
 
 export default function App() {
   const [time, setTime] = useState(() => new Date().toLocaleTimeString('ru-RU', { hour12: false }))
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [splash, setSplash] = useState(true)
+  const [splashFade, setSplashFade] = useState(false)
 
   useEffect(() => {
     const t = setInterval(() => setTime(new Date().toLocaleTimeString('ru-RU', { hour12: false })), 1000)
     return () => clearInterval(t)
   }, [])
+
+  useEffect(() => {
+    if (!splash) return
+    const fade = setTimeout(() => setSplashFade(true), 1100)
+    const done = setTimeout(() => setSplash(false), 1700)
+    return () => { clearTimeout(fade); clearTimeout(done) }
+  }, [splash])
 
   return (
     <div
@@ -219,6 +241,42 @@ export default function App() {
         overflow: 'hidden',
       }}
     >
+      {/* splash / заставка при заходе */}
+      {splash && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 999,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '6px',
+            background: 'radial-gradient(ellipse 80% 60% at 50% 42%, #172136 0%, #0a0e18 72%)',
+            transition: 'opacity 0.55s ease',
+            opacity: splashFade ? 0 : 1,
+            pointerEvents: splashFade ? 'none' : 'auto',
+          }}
+        >
+          <div style={{ fontFamily: 'Outfit', fontSize: 'clamp(64px, 16vw, 96px)', fontWeight: 700, color: '#edf1fb', letterSpacing: '-0.03em', lineHeight: 1 }}>
+            NEXUS
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '10px' }}>
+            <div style={{ width: '44px', height: '1px', background: 'linear-gradient(to left, #e0a86a, transparent)' }} />
+            <span style={{ fontFamily: 'JetBrains Mono', fontSize: '10px', letterSpacing: '0.28em', color: '#e0a86a', textTransform: 'uppercase' }}>
+              HUB-NODE
+            </span>
+            <div style={{ width: '44px', height: '1px', background: 'linear-gradient(to right, #e0a86a, transparent)' }} />
+          </div>
+          <div style={{ display: 'flex', gap: '7px', marginTop: '28px' }}>
+            {[0, 1, 2].map(i => (
+              <span key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#77d4e0', animation: `splash-dot 1.1s ease-in-out ${i * 0.18}s infinite` }} />
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* slow-drifting aurora field */}
       <div
         style={{
@@ -273,10 +331,69 @@ export default function App() {
         <span style={{ fontFamily: 'JetBrains Mono', fontSize: '11px', color: '#4a5474', letterSpacing: '0.12em' }}>
           NEXUS // HUB-NODE
         </span>
-        <span style={{ fontFamily: 'JetBrains Mono', fontSize: '11px', color: '#4a5474', letterSpacing: '0.1em' }}>
-          {time}
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          <span style={{ fontFamily: 'JetBrains Mono', fontSize: '11px', color: '#4a5474', letterSpacing: '0.1em' }}>
+            {time}
+          </span>
+          <button
+            className="menu-toggle"
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label="Меню"
+            style={{ flexDirection: 'column', gap: '4px', background: 'transparent', border: 'none', cursor: 'pointer', padding: '6px' }}
+          >
+            <span style={{ width: '18px', height: '2px', background: '#8b95b4', display: 'block' }} />
+            <span style={{ width: '18px', height: '2px', background: '#8b95b4', display: 'block' }} />
+            <span style={{ width: '18px', height: '2px', background: '#8b95b4', display: 'block' }} />
+          </button>
+        </div>
       </div>
+
+      {/* mobile menu */}
+      {menuOpen && (
+        <>
+          <div style={{ position: 'fixed', inset: 0, zIndex: 49 }} onClick={() => setMenuOpen(false)} />
+          <div
+            style={{
+              position: 'fixed',
+              top: '49px',
+              right: '14px',
+              zIndex: 55,
+              background: '#0d1322',
+              border: '1px solid #253048',
+              borderRadius: '12px',
+              padding: '8px',
+              minWidth: '230px',
+              boxShadow: '0 24px 60px -20px rgba(0,0,0,0.7)',
+              animation: 'menu-in 0.18s ease',
+            }}
+          >
+            {NAV_LINKS.map(l => (
+              <a
+                key={l.label}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
+                onMouseEnter={(e) => { (e.target as HTMLElement).style.background = '#16203a' }}
+                onMouseLeave={(e) => { (e.target as HTMLElement).style.background = 'transparent' }}
+                style={{
+                  display: 'block',
+                  padding: '11px 14px',
+                  fontFamily: 'JetBrains Mono',
+                  fontSize: '11px',
+                  color: '#8b95b4',
+                  textDecoration: 'none',
+                  letterSpacing: '0.14em',
+                  borderRadius: '8px',
+                  transition: 'background 0.2s ease',
+                }}
+              >
+                {l.label}
+              </a>
+            ))}
+          </div>
+        </>
+      )}
 
       <div style={{ width: '100%', maxWidth: '900px', paddingTop: '40px', position: 'relative', zIndex: 2 }}>
         {/* header */}
@@ -350,6 +467,7 @@ export default function App() {
             glowColor="rgba(119,212,224,0.35)"
             statusLabel="ONLINE"
             floatDelay="0s"
+            revealDelay="1.2s"
             href="https://retgar11099-crypto.github.io/barotrauma/"
           />
           <ServerCard
@@ -362,6 +480,7 @@ export default function App() {
             glowColor="rgba(232,183,132,0.32)"
             statusLabel="ONLINE"
             floatDelay="-4.5s"
+            revealDelay="1.32s"
             href="https://retgar11099-crypto.github.io/d7/"
           />
           <ServerCard
@@ -374,6 +493,7 @@ export default function App() {
             glowColor="rgba(240,201,58,0.32)"
             statusLabel="ONLINE"
             floatDelay="-2s"
+            revealDelay="1.44s"
             stripe
             href="https://retgar11099-crypto.github.io/project-zomboid/"
           />
@@ -387,6 +507,7 @@ export default function App() {
             glowColor="rgba(145,199,165,0.3)"
             statusLabel="ONLINE"
             floatDelay="-6.5s"
+            revealDelay="1.56s"
             href="https://retgar11099-crypto.github.io/dsv-zombi/"
           />
         </div>
