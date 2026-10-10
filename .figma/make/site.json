@@ -1,6 +1,7 @@
 {
   "title": "NEXUS — Gaming Network Hub",
-  "description": "Центральный узел игровой сети: Barotrauma, Minecraft (Protocol D7) и Project Zomboid (Mantani, DSV-Zombi). Выбери направление и заходи.",
+  "description": "Центральный узел игровой сети: Barotrauma, Minecraft (SkyHold) и Project Zomboid (Mantani, DSV-Zombi). Выбери направление и заходи.",
+  "language": "ru",
   "robots": {
     "index": true
   },
