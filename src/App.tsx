@@ -262,6 +262,7 @@ export default function App() {
   const [cyber, setCyber] = useState(false)
   const [cyberError, setCyberError] = useState(false)
   const [rebel, setRebel] = useState(false)
+  const [galleryOpen, setGalleryOpen] = useState(false)
   const [galleryIdx, setGalleryIdx] = useState<number | null>(null)
 
   useEffect(() => {
@@ -299,6 +300,13 @@ export default function App() {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [lbOpen])
+
+  useEffect(() => {
+    if (!galleryOpen) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setGalleryOpen(false) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [galleryOpen])
 
   return (
     <div
@@ -624,63 +632,10 @@ export default function App() {
           />
         </div>
 
-        {/* server sites row */}
         <div style={{ textAlign: 'center', marginBottom: '56px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', justifyContent: 'center' }}>
-            <div style={{ flex: 1, maxWidth: '120px', height: '1px', background: 'linear-gradient(to left, #2a3654, transparent)' }} />
-            <span style={{ fontFamily: 'JetBrains Mono', fontSize: '10px', color: '#4a5474', letterSpacing: '0.18em' }}>
-              СТРАНИЦЫ СЕРВЕРОВ
-            </span>
-            <div style={{ flex: 1, maxWidth: '120px', height: '1px', background: 'linear-gradient(to right, #2a3654, transparent)' }} />
-          </div>
-          <div className="sites-row">
-            {NAV_LINKS.filter(l => l.label !== 'DISCORD').map((l, i) => (
-              <a
-                key={l.label}
-                href={l.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="sites-btn"
-                style={{ animationDelay: `${i * 0.07}s` }}
-                onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = '#77d4e0'; el.style.color = '#77d4e0'; el.style.boxShadow = '0 0 20px rgba(119,212,224,0.18)' }}
-                onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = '#253048'; el.style.color = '#8b95b4'; el.style.boxShadow = 'none' }}
-              >
-                {l.label}
-                <span style={{ fontFamily: 'JetBrains Mono', fontSize: '12px', lineHeight: 1 }}>↗</span>
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ textAlign: 'center', marginTop: '-8px', marginBottom: '56px' }}>
-          <button
-            className="gallery-jump"
-            onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-          >
+          <button className="gallery-btn" onClick={() => setGalleryOpen(true)}>
             🖼 СКРИНЫ СЕРВЕРОВ
           </button>
-        </div>
-
-        {/* gallery */}
-        <div id="gallery" style={{ marginBottom: '56px', scrollMarginTop: '60px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', justifyContent: 'center' }}>
-            <div style={{ flex: 1, maxWidth: '120px', height: '1px', background: 'linear-gradient(to left, #2a3654, transparent)' }} />
-            <span style={{ fontFamily: 'JetBrains Mono', fontSize: '10px', color: '#4a5474', letterSpacing: '0.18em' }}>
-              SCREENSHOTS
-            </span>
-            <div style={{ flex: 1, maxWidth: '120px', height: '1px', background: 'linear-gradient(to right, #2a3654, transparent)' }} />
-          </div>
-          <div className="gallery-grid">
-            {GALLERY.map((s, i) => (
-              <button key={s.src} className="gallery-item" onClick={() => setGalleryIdx(i)} aria-label={s.alt}>
-                <img src={import.meta.env.BASE_URL + s.src} alt={s.alt} loading="lazy" />
-                <span className="gallery-cap">
-                  <span className="g-tag">{s.tag}</span>
-                  <span className="g-alt">{s.alt}</span>
-                </span>
-              </button>
-            ))}
-          </div>
         </div>
 
         {/* footer */}
@@ -750,6 +705,22 @@ export default function App() {
           <div className="rebel-scanlines" aria-hidden="true" />
           <div className="rebel-alert">⚠ REBELLION MODE · СИСТЕМА НЕСТАБИЛЬНА</div>
         </>
+      )}
+
+      {galleryOpen && (
+        <div className="gallery-modal" onClick={(e) => { if (e.target === e.currentTarget) setGalleryOpen(false) }}>
+          <div className="gallery-modal-box">
+            <button className="gallery-lb-close" onClick={() => setGalleryOpen(false)} aria-label="Закрыть">✕</button>
+            <div className="gallery-modal-title">СКРИНЫ СЕРВЕРОВ</div>
+            <div className="gallery-modal-grid">
+              {GALLERY.map((s, i) => (
+                <button key={s.src} className="gallery-item" onClick={() => setGalleryIdx(i)} aria-label={s.alt}>
+                  <img src={import.meta.env.BASE_URL + s.src} alt={s.alt} loading="lazy" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
 
       {lbOpen && GALLERY[galleryIdx!] && (
