@@ -276,6 +276,7 @@ export default function App() {
 
   return (
     <div
+      className={rebel ? 'rebel-mode' : undefined}
       style={{
         minHeight: '100vh',
         background: 'linear-gradient(180deg, #10162400 0%, #0e131f 100%), radial-gradient(ellipse 90% 70% at 50% 0%, #172136 0%, #0e131f 60%)',
@@ -382,12 +383,15 @@ export default function App() {
           NEXUS // HUB-NODE
         </span>
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <button
-            className={rebel ? 'rebel-toggle on' : 'rebel-toggle'}
-            onClick={() => setRebel(r => !r)}
-          >
-            {rebel ? '✖ EXIT' : '⚡ REBELLION'}
-          </button>
+          <label className={'checkbox-wrapper' + (rebel ? ' on' : '')}>
+            <input type="checkbox" checked={rebel} onChange={(e) => setRebel(e.target.checked)} />
+            <span className="checkmark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="4 12 10 18 20 6" />
+              </svg>
+            </span>
+            <span className="label">REBELLION MODE</span>
+          </label>
           <span style={{ fontFamily: 'JetBrains Mono', fontSize: '11px', color: '#4a5474', letterSpacing: '0.1em' }}>
             {time}
           </span>
@@ -657,6 +661,7 @@ export default function App() {
       {rebel && (
         <>
           <div className="rebel-tint" aria-hidden="true" />
+          <div className="rebel-glitch" aria-hidden="true" />
           <div className="rebel-scanlines" aria-hidden="true" />
           <div className="rebel-alert">⚠ REBELLION MODE · СИСТЕМА НЕСТАБИЛЬНА</div>
         </>
