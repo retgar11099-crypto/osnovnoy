@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { label: 'SKYHOLD', href: 'https://retgar11099-crypto.github.io/skyhold/' },
   { label: 'MANTANI', href: 'https://retgar11099-crypto.github.io/project-zomboid/' },
   { label: 'DSV-ZOMBI', href: 'https://retgar11099-crypto.github.io/dsv-zombi/' },
+  { label: 'GIHTEN', href: 'https://retgar11099-crypto.github.io/gihten/' },
   { label: 'DISCORD', href: 'https://discord.gg/tqhwNTZgf3' },
 ]
 
@@ -656,6 +657,19 @@ export default function App() {
             floatDelay="-6.5s"
             revealDelay="1.56s"
             href="https://retgar11099-crypto.github.io/dsv-zombi/"
+          />
+          <ServerCard
+            code="SRV-005 // GHTN"
+            title="Gihten"
+            subtitle="Warcraft — Артас · Король-лич"
+            desc="Тёмный терминал во льдах Ледяной Короны. Включи видео, слушай фонк и читай лор Короля-лича. Всё погружается во тьму, а по центру оживает терминал."
+            tag="// Fan Terminal"
+            accentColor="#7fe9ff"
+            glowColor="rgba(127,233,255,0.35)"
+            statusLabel="FROZEN"
+            floatDelay="-8s"
+            revealDelay="1.68s"
+            href="https://retgar11099-crypto.github.io/gihten/"
           />
         </div>
 
