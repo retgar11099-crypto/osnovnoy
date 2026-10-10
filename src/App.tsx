@@ -239,8 +239,12 @@ export default function App() {
         padding: 'clamp(48px, 8vw, 88px) clamp(20px, 5vw, 60px)',
         position: 'relative',
         overflow: 'hidden',
+        isolation: 'isolate',
       }}
     >
+      {/* animated wall background */}
+      <div className="nexus-bg" aria-hidden="true" />
+
       {/* splash / заставка при заходе */}
       {splash && (
         <div

@@ -13,5 +13,8 @@
   "accessibility": {
     "addBypassLinks": false,
     "ignoreReducedMotion": false
+  },
+  "analytics": {
+    "googleAnalyticsId": "G-Y81BVXC15T"
   }
 }
